@@ -1,0 +1,186 @@
+/* ============================================================
+   weather-icons.css — Animated Weather Effects & Backgrounds
+   ============================================================ */
+
+/* Theme transitions */
+.bg-layer { 
+    transition: opacity 1.4s cubic-bezier(0.4,0,0.2,1); 
+    background-size: cover !important;
+    background-position: center !important;
+    animation: slowPan 30s alternate infinite ease-in-out;
+}
+
+@keyframes slowPan {
+    0% { transform: scale(1.05) translate(0, 0); }
+    100% { transform: scale(1.15) translate(-1%, -1%); }
+}
+
+/* Base overlay for readability on real photos */
+.bg-layer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(15,23,42,0.4) 100%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ---- Theme: Clear / Sunny ---- */
+.theme-clear .orb-1 { background: radial-gradient(circle, #fbbf24, #f59e0b); }
+.theme-clear .orb-2 { background: radial-gradient(circle, #60a5fa, #3b82f6); }
+.theme-clear .orb-3 { background: radial-gradient(circle, #fde68a, #fbbf24); }
+.theme-clear .bg-layer { 
+  background: url('https://images.unsplash.com/photo-1590077428593-a55bb07c4665?auto=format&fit=crop&q=80') no-repeat;
+}
+.theme-clear .bg-layer::before { background: linear-gradient(135deg, rgba(14,165,233,0.6) 0%, rgba(15,23,42,0.7) 100%); }
+
+/* ---- Theme: Rain ---- */
+.theme-rain .orb-1 { background: radial-gradient(circle, #1e3a5f, #0f2744); }
+.theme-rain .orb-2 { background: radial-gradient(circle, #3d5a80, #2c3e50); }
+.theme-rain .orb-3 { background: radial-gradient(circle, #4a7c95, #3d5a80); }
+.theme-rain .bg-layer { 
+  background: url('https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&q=80') no-repeat;
+}
+.theme-rain .bg-layer::before { background: linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(30,58,138,0.7) 100%); }
+
+/* Rain drops animation */
+.theme-rain .bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0px, transparent 4px,
+      rgba(174,214,241,0.04) 4px, rgba(174,214,241,0.04) 5px
+    );
+  background-size: 3px 80px;
+  animation: rainFall 0.6s linear infinite;
+  pointer-events: none;
+}
+@keyframes rainFall {
+  from { background-position: 0 0; }
+  to   { background-position: 0 80px; }
+}
+
+/* ---- Theme: Drizzle ---- */
+.theme-drizzle .bg-layer { 
+  background: url('https://images.unsplash.com/photo-1541427468627-a47a1ea2a9f4?auto=format&fit=crop&q=80') no-repeat;
+}
+.theme-drizzle .bg-layer::before { background: linear-gradient(135deg, rgba(15,23,42,0.8) 0%, rgba(56,189,248,0.5) 100%); }
+.theme-drizzle .orb-1 { background: radial-gradient(circle, #6b8dd6, #4a6fa5); }
+.theme-drizzle .orb-2 { background: radial-gradient(circle, #8eb8e5, #6b8dd6); }
+.theme-drizzle .orb-3 { background: radial-gradient(circle, #4a6fa5, #2c4a6b); }
+
+/* ---- Theme: Thunderstorm ---- */
+.theme-thunderstorm .bg-layer { 
+  background: url('https://images.unsplash.com/photo-1605727216801-e27ce1d0ce30?auto=format&fit=crop&q=80') no-repeat;
+}
+.theme-thunderstorm .bg-layer::before { background: linear-gradient(135deg, rgba(15,23,42,0.95) 0%, rgba(76,29,149,0.7) 100%); }
+.theme-thunderstorm .orb-1 { background: radial-gradient(circle, #5b21b6, #2e1065); }
+.theme-thunderstorm .orb-2 { background: radial-gradient(circle, #1e3a5f, #0f2744); }
+.theme-thunderstorm .orb-3 { background: radial-gradient(circle, #7c3aed, #4c1d95); }
+
+/* Lightning flash */
+.theme-thunderstorm .bg-layer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  animation: lightning 6s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes lightning {
+  0%, 89%, 91%, 93%, 100% { background: rgba(255,255,255,0); }
+  90%, 92% { background: rgba(255,255,255,0.04); }
+}
+
+/* ---- Theme: Snow ---- */
+.theme-snow .bg-layer { 
+  background: url('https://images.unsplash.com/photo-1418985991508-e47386d96a71?auto=format&fit=crop&q=80') no-repeat;
+}
+.theme-snow .bg-layer::before { background: linear-gradient(135deg, rgba(15,23,42,0.6) 0%, rgba(147,197,253,0.5) 100%); }
+.theme-snow .orb-1 { background: radial-gradient(circle, #bfdbfe, #93c5fd); }
+.theme-snow .orb-2 { background: radial-gradient(circle, #dbeafe, #bfdbfe); }
+.theme-snow .orb-3 { background: radial-gradient(circle, #eff6ff, #dbeafe); }
+
+/* Snow flakes via pseudo */
+.theme-snow .bg-layer::after {
+  content: '❄ ❅ ✦ ❆ ❄ ❅ ✦ ❆ ❄ ❅ ✦ ❆ ❄ ❅';
+  position: absolute;
+  inset: 0;
+  color: rgba(255,255,255,0.25);
+  font-size: 1.2rem;
+  letter-spacing: 30px;
+  animation: snowFall 8s linear infinite;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0;
+  overflow: hidden;
+  white-space: nowrap;
+}
+@keyframes snowFall {
+  from { transform: translateY(-60px); opacity: 0.5; }
+  to   { transform: translateY(100vh);  opacity: 0.1; }
+}
+
+/* ---- Theme: Clouds ---- */
+.theme-clouds .bg-layer { 
+  background: url('https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?auto=format&fit=crop&q=80') no-repeat;
+}
+.theme-clouds .bg-layer::before { background: linear-gradient(135deg, rgba(15,23,42,0.85) 0%, rgba(107,114,128,0.7) 100%); }
+.theme-clouds .orb-1 { background: radial-gradient(circle, #4b5563, #374151); }
+.theme-clouds .orb-2 { background: radial-gradient(circle, #6b7280, #4b5563); }
+.theme-clouds .orb-3 { background: radial-gradient(circle, #9ca3af, #6b7280); }
+
+/* ---- Theme: Few Clouds ---- */
+.theme-fewclouds .bg-layer { 
+  background: url('https://images.unsplash.com/photo-1499956827185-0d63ee78a910?auto=format&fit=crop&q=80') no-repeat;
+}
+.theme-fewclouds .bg-layer::before { background: linear-gradient(135deg, rgba(14,165,233,0.5) 0%, rgba(15,23,42,0.8) 100%); }
+.theme-fewclouds .orb-1 { background: radial-gradient(circle, #3b82f6, #1d4ed8); }
+.theme-fewclouds .orb-2 { background: radial-gradient(circle, #60a5fa, #3b82f6); }
+.theme-fewclouds .orb-3 { background: radial-gradient(circle, #93c5fd, #60a5fa); }
+
+/* ---- Theme: Atmosphere (Fog/Mist/Haze) ---- */
+.theme-atmosphere .bg-layer { 
+  background: url('https://images.unsplash.com/photo-1485236715568-ddc5ee6ca227?auto=format&fit=crop&q=80') no-repeat;
+}
+.theme-atmosphere .bg-layer::before { background: linear-gradient(135deg, rgba(15,23,42,0.8) 0%, rgba(156,163,175,0.6) 100%); }
+.theme-atmosphere .orb-1 { background: radial-gradient(circle, #6b7280, #4b5563); opacity: 0.3; }
+.theme-atmosphere .orb-2 { background: radial-gradient(circle, #9ca3af, #6b7280); opacity: 0.3; }
+.theme-atmosphere .orb-3 { background: radial-gradient(circle, #d1d5db, #9ca3af); opacity: 0.3; }
+
+/* ---- Night mode ---- */
+.theme-night .bg-layer { 
+  background: url('https://images.unsplash.com/photo-1507400492004-92787e494a8e?auto=format&fit=crop&q=80') no-repeat;
+}
+.theme-night .bg-layer::before { background: linear-gradient(135deg, rgba(2,6,23,0.95) 0%, rgba(30,58,138,0.7) 100%); }
+.theme-night .orb-1 { background: radial-gradient(circle, #312e81, #1e1b4b); }
+.theme-night .orb-2 { background: radial-gradient(circle, #1e3a5f, #0f2744); }
+.theme-night .orb-3 { background: radial-gradient(circle, #3730a3, #1e1b4b); }
+
+/* ---- Animated Weather Icon Glow ---- */
+.weather-icon-wrap {
+  position: relative;
+}
+.weather-icon-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--icon-glow, rgba(96,165,250,0.2)), transparent 70%);
+  animation: iconGlow 2.5s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes iconGlow {
+  from { opacity: 0.4; transform: scale(0.95); }
+  to   { opacity: 1;   transform: scale(1.05); }
+}
+
+/* Sunny icon extra shimmer */
+.theme-clear .weather-icon-wrap { --icon-glow: rgba(251,191,36,0.4); }
+.theme-rain .weather-icon-wrap  { --icon-glow: rgba(96,165,250,0.3); }
+.theme-thunderstorm .weather-icon-wrap { --icon-glow: rgba(167,139,250,0.5); }
+.theme-snow .weather-icon-wrap  { --icon-glow: rgba(191,219,254,0.4); }

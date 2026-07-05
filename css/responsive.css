@@ -1,0 +1,106 @@
+/* ============================================================
+   responsive.css — Responsive Breakpoints
+   ============================================================ */
+
+/* ---------- ≥ 1024px : Full 2-column layout (default) ---------- */
+/* Already set in style.css grid-template-columns: 1fr 380px */
+
+/* ---------- 768px – 1023px : Tablet landscape ---------- */
+@media (max-width: 1023px) {
+  .app-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    padding: 16px 20px 24px;
+  }
+
+  .col-side {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .forecast-card { grid-column: 1 / -1; }
+
+  .current-details {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .logo-text { font-size: 1.4rem; }
+}
+
+/* ---------- 640px – 767px : Tablet portrait ---------- */
+@media (max-width: 767px) {
+  .app-header {
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .search-wrapper { min-width: 160px; }
+
+  .app-main { gap: 14px; padding: 14px 16px 20px; }
+
+  .col-side {
+    grid-template-columns: 1fr;
+  }
+
+  .current-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .main-temp { font-size: 4rem; }
+  .city-name  { font-size: 1.8rem; }
+
+  .card { padding: 18px; }
+}
+
+/* ---------- < 640px : Mobile ---------- */
+@media (max-width: 639px) {
+  .app-header {
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .logo-text { font-size: 1.2rem; }
+  .logo-icon  { font-size: 1.4rem; }
+
+  .search-wrapper { order: 3; flex: 1 0 100%; max-width: none; }
+  .unit-toggle    { margin-left: auto; }
+
+  .app-main { padding: 12px 12px 16px; gap: 12px; }
+
+  .current-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .main-temp { font-size: 3.5rem; letter-spacing: -1px; }
+  .city-name  { font-size: 1.5rem; }
+
+  .weather-icon-wrap { width: 72px; height: 72px; font-size: 2.4rem; }
+
+  .card { padding: 16px; border-radius: 16px; }
+  :root { --radius: 16px; --radius-sm: 10px; }
+
+  .card-actions { gap: 8px; }
+  .action-btn { font-size: 0.78rem; padding: 7px 14px; }
+}
+
+/* ---------- < 400px : Very small phones ---------- */
+@media (max-width: 399px) {
+  .current-details {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .main-temp { font-size: 2.8rem; }
+
+  .forecast-temps .lo { display: none; }
+
+  .col-side { gap: 10px; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
