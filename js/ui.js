@@ -41,9 +41,19 @@ const UI = (() => {
   };
 
   // ---------- Loading & Error ----------
+  /**
+   * Displays the global loading overlay.
+   */
   function showLoading() { els.loadingOverlay.classList.remove('hidden'); }
+  /**
+   * Hides the global loading overlay.
+   */
   function hideLoading() { els.loadingOverlay.classList.add('hidden'); }
 
+  /**
+   * Displays the global error banner with a custom message.
+   * @param {string} msg - The error message to display
+   */
   function showError(msg) {
     els.errorMsg.textContent = `⚠️ ${msg}`;
     els.errorBanner.classList.remove('hidden');
@@ -51,6 +61,12 @@ const UI = (() => {
   function hideError() { els.errorBanner.classList.add('hidden'); }
 
   // ---------- Theme ----------
+  /**
+   * Updates the CSS classes on the body element to reflect the current weather theme.
+   * This drives the background gradient and overall color scheme of the app.
+   * @param {number} weatherId - The OpenWeatherMap condition code
+   * @param {string} iconCode - The icon code (e.g., '01n' for night)
+   */
   function applyTheme(weatherId, iconCode) {
     const body = document.body;
     const themes = ['theme-clear','theme-rain','theme-drizzle','theme-thunderstorm',
@@ -87,6 +103,11 @@ const UI = (() => {
   }
 
   // ---------- Render current weather ----------
+  /**
+   * Populates the main UI card with current weather data.
+   * Updates temperatures, descriptions, icons, and environmental details.
+   * @param {object} data - The complete formatted weather data object
+   */
   function renderCurrent(data) {
     const c = data.current;
     hideError();
@@ -109,6 +130,10 @@ const UI = (() => {
   }
 
   // ---------- Render hourly ----------
+  /**
+   * Populates the horizontal scrolling hourly forecast section.
+   * @param {Array} hourly - Array of hourly forecast objects
+   */
   function renderHourly(hourly) {
     els.hourlyScroll.innerHTML = hourly.map(h => `
       <div class="hourly-item" tabindex="0">
@@ -121,6 +146,10 @@ const UI = (() => {
   }
 
   // ---------- Render 5-day forecast ----------
+  /**
+   * Populates the vertical 5-day forecast list in the sidebar.
+   * @param {Array} forecast - Array of daily forecast objects
+   */
   function renderForecast(forecast) {
     els.forecastList.innerHTML = forecast.map(f => `
       <div class="forecast-item">
@@ -211,6 +240,11 @@ const UI = (() => {
   }
 
   // ---------- Autocomplete ----------
+  /**
+   * Renders the dropdown list of autocomplete city suggestions.
+   * @param {Array} suggestions - Array of suggestion objects
+   * @param {function} onSelect - Callback fired when a suggestion is clicked
+   */
   function renderAutocomplete(suggestions, onSelect) {
     els.autocompleteList.innerHTML = '';
     if (!suggestions.length) return;

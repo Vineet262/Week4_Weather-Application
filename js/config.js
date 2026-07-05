@@ -1,5 +1,9 @@
 // config.js - API Configuration and Constants
 
+/**
+ * Global configuration object for the SkyWatch application.
+ * Contains API endpoints, caching settings, and default values.
+ */
 const CONFIG = {
     API_KEY: '', // This will be loaded dynamically from the .env file
 
@@ -25,6 +29,10 @@ const CONFIG = {
 
     DEMO_MODE: false,
 
+    /**
+     * Dynamically loads the environment variables from the .env file.
+     * This keeps the API key out of the source code and prevents it from being committed to GitHub.
+     */
     async loadEnv() {
         try {
             // Fetch the .env file directly
@@ -58,14 +66,25 @@ const WEATHER_THEMES = {
     clouds:       { range: [803, 804], gradient: 'linear-gradient(135deg, #546e7a 0%, #78909c 50%, #90a4ae 100%)', icon: '☁️' },
 };
 
-// Wind direction mapping
+// Wind direction mapping array (16-point compass)
 const WIND_DIRECTIONS = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
 
+/**
+ * Converts meteorological degrees into a compass direction string.
+ * @param {number} degrees - Wind direction in degrees (0-360)
+ * @returns {string} Compass direction (e.g., 'N', 'NE', 'SW')
+ */
 function getWindDirection(degrees) {
     const index = Math.round(degrees / 22.5) % 16;
     return WIND_DIRECTIONS[index];
 }
 
+/**
+ * Maps an OpenWeatherMap condition ID to our custom UI theme.
+ * Iterates through the WEATHER_THEMES object to find the matching range.
+ * @param {number} weatherId - The condition code from the API (e.g., 800 for clear)
+ * @returns {object} The theme object containing gradient and icon
+ */
 function getWeatherTheme(weatherId) {
     for (const [key, theme] of Object.entries(WEATHER_THEMES)) {
         if (weatherId >= theme.range[0] && weatherId <= theme.range[1]) {

@@ -8,6 +8,14 @@
   let lastData = null;
 
   // ---------- Init ----------
+  /**
+   * Initializes the application on startup.
+   * - Loads the environment variables containing the API key.
+   * - Sets the correct temperature unit in the UI.
+   * - Attaches event listeners to interactive elements.
+   * - Loads weather data for the default city.
+   * - Updates the clock dynamically every minute.
+   */
   async function init() {
     await CONFIG.loadEnv(); // Read the .env file first
     UI.setUnitBtn(currentUnit);
@@ -19,6 +27,11 @@
   }
 
   // ---------- Load weather ----------
+  /**
+   * Fetches weather data for a given city and renders it to the screen.
+   * Handles loading states, API requests, state updates, and error handling.
+   * @param {string} city - The name of the city to load weather for.
+   */
   async function loadWeather(city) {
     UI.showLoading();
     UI.clearAutocomplete();
@@ -44,6 +57,10 @@
   }
 
   // ---------- Refresh sidebar lists ----------
+  /**
+   * Refreshes the Recent Searches and Favorites lists in the UI Sidebar.
+   * Re-renders the items and attaches their respective event listeners.
+   */
   function refreshSidebar() {
     UI.renderFavorites(
       Storage.getFavorites(),
@@ -58,6 +75,11 @@
   }
 
   // ---------- Autocomplete ----------
+  /**
+   * Handles the debounced search input to fetch and display autocomplete suggestions.
+   * Debouncing ensures we do not spam the API with requests for every keystroke.
+   * @param {string} val - The current value of the search input field.
+   */
   async function handleSearchInput(val) {
     clearTimeout(autocompleteTimeout);
     if (!val || val.length < 2) { UI.clearAutocomplete(); return; }
@@ -73,6 +95,10 @@
   }
 
   // ---------- Geolocation ----------
+  /**
+   * Requests the user's geolocation and fetches weather data for their current coordinates.
+   * Handles browser permission prompts and fallback error states.
+   */
   function handleGeoLocate() {
     if (!navigator.geolocation) {
       UI.showError('Geolocation is not supported by your browser.');
@@ -106,6 +132,10 @@
   }
 
   // ---------- Share ----------
+  /**
+   * Uses the native Web Share API to share the current weather data.
+   * Falls back to copying text to the clipboard if the Share API is unsupported.
+   */
   function handleShare() {
     if (!lastData) return;
     const c = lastData.current;
@@ -123,6 +153,10 @@
   }
 
   // ---------- Bind events ----------
+  /**
+   * Attaches event listeners to all interactive DOM elements (buttons, inputs, etc.)
+   * Centralizes event delegation for better code organization.
+   */
   function bindEvents() {
     // Search input
     UI.els.searchInput.addEventListener('input', e => handleSearchInput(e.target.value.trim()));

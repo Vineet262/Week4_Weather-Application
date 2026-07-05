@@ -9,9 +9,19 @@ const STORAGE_KEYS = {
 
 const Storage = (() => {
   // --- Generic helpers ---
+  /**
+   * Safely retrieves and parses a JSON object from LocalStorage.
+   * @param {string} key - The LocalStorage key
+   * @returns {any|null} The parsed object or null if it doesn't exist/fails
+   */
   function _get(key) {
     try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
   }
+  /**
+   * Safely stringifies and saves a value to LocalStorage.
+   * @param {string} key - The LocalStorage key
+   * @param {any} val - The value to store
+   */
   function _set(key, val) {
     try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {
       console.warn('[Storage] Could not write:', e);
@@ -23,6 +33,15 @@ const Storage = (() => {
 
   function cacheKey(city, unit) { return `${city.toLowerCase()}_${unit}`; }
 
+  function cacheKey(city, unit) { return `${city.toLowerCase()}_${unit}`; }
+
+  /**
+   * Retrieves weather data from cache if it is fresh (under 10 minutes old).
+   * Checks the fast in-memory map first, then falls back to LocalStorage.
+   * @param {string} city - The city name
+   * @param {string} unit - The temperature unit ('celsius' or 'fahrenheit')
+   * @returns {object|null} The cached data, or null if expired/not found
+   */
   function getCached(city, unit) {
     const k = cacheKey(city, unit);
     // 1. In-memory
@@ -41,6 +60,12 @@ const Storage = (() => {
     return null;
   }
 
+  /**
+   * Saves weather data to both the in-memory cache and LocalStorage.
+   * @param {string} city - The city name
+   * @param {string} unit - The temperature unit
+   * @param {object} data - The weather data payload to cache
+   */
   function setCache(city, unit, data) {
     const k = cacheKey(city, unit);
     const entry = { ts: Date.now(), data };
@@ -56,8 +81,18 @@ const Storage = (() => {
   }
 
   // --- Favorites ---
+  /**
+   * Returns the list of favorited cities from LocalStorage.
+   * @returns {string[]} Array of city names
+   */
   function getFavorites() { return _get(STORAGE_KEYS.FAVORITES) || []; }
 
+  /**
+   * Adds a new city to the beginning of the favorites list.
+   * Limits the list to a maximum of 10 items.
+   * @param {string} city - The city to add
+   * @returns {string[]} The updated favorites array
+   */
   function addFavorite(city) {
     const favs = getFavorites();
     if (!favs.some(f => f.toLowerCase() === city.toLowerCase())) {
@@ -78,8 +113,18 @@ const Storage = (() => {
   }
 
   // --- Recent Searches ---
+  /**
+   * Returns the list of recent searches from LocalStorage.
+   * @returns {string[]} Array of city names
+   */
   function getRecent() { return _get(STORAGE_KEYS.RECENT) || []; }
 
+  /**
+   * Adds a city to the recent searches list, moving it to the top if it exists.
+   * Limits the list to a maximum of 8 items.
+   * @param {string} city - The city to add
+   * @returns {string[]} The updated recent searches array
+   */
   function addRecent(city) {
     let recent = getRecent().filter(r => r.toLowerCase() !== city.toLowerCase());
     recent.unshift(city);

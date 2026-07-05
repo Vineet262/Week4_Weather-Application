@@ -17,6 +17,13 @@ const WeatherService = (() => {
   function tempSymbol(unit) { return unit === 'fahrenheit' ? '°F' : '°C'; }
 
   // ---------- Live API mode ----------
+  /**
+   * Fetches the current weather and 5-day forecast for a given city from OpenWeatherMap.
+   * Internally geocodes the city name to coordinates before fetching the weather data.
+   * @param {string} city - The name of the city
+   * @param {string} unit - The temperature unit ('celsius' or 'fahrenheit')
+   * @returns {object} Formatted object containing current, forecast, and hourly data
+   */
   async function fetchFromAPI(city, unit) {
     const apiUnit = toApiUnit(unit);
     const sym = tempSymbol(unit);
@@ -93,6 +100,14 @@ const WeatherService = (() => {
   }
 
   // ---------- Geolocation ----------
+  /**
+   * Fetches weather data using raw latitude and longitude coordinates.
+   * Uses reverse geocoding to determine the city name for UI display.
+   * @param {number} lat - Latitude
+   * @param {number} lon - Longitude
+   * @param {string} unit - The temperature unit
+   * @returns {object} Formatted weather data
+   */
   async function fetchByCoords(lat, lon, unit) {
     const apiUnit = toApiUnit(unit);
     const sym = tempSymbol(unit);
@@ -104,6 +119,12 @@ const WeatherService = (() => {
   }
 
   // ---------- Autocomplete ----------
+  /**
+   * Fetches a list of city suggestions matching the search query.
+   * Uses the OpenWeatherMap Geo API for direct geocoding search.
+   * @param {string} query - The partial city name
+   * @returns {Array} Array of city suggestion objects
+   */
   async function fetchAutocomplete(query) {
     if (!query || query.length < 2) return [];
     const url = `${CONFIG.GEO_URL}${CONFIG.ENDPOINTS.GEO_DIRECT}?q=${encodeURIComponent(query)}&limit=${CONFIG.AUTOCOMPLETE_LIMIT}&appid=${CONFIG.API_KEY}`;
@@ -112,6 +133,13 @@ const WeatherService = (() => {
   }
 
   // ---------- Public: getWeather ----------
+  /**
+   * Main entry point for getting weather data. 
+   * Checks the cache first to save API calls; fetches from the API if no fresh cache exists.
+   * @param {string} city - The city name
+   * @param {string} unit - The temperature unit
+   * @returns {object} Formatted weather data
+   */
   async function getWeather(city, unit) {
     // Check cache
     const cached = Storage.getCached(city, unit);
@@ -136,6 +164,12 @@ const WeatherService = (() => {
     return '🌡️';
   }
 
+  /**
+   * Determines the correct local or remote icon path based on the condition code.
+   * Day icons use custom SVGs, night icons use OpenWeatherMap's official icons.
+   * @param {string} iconCode - The 3-character icon code from the API (e.g., '01d')
+   * @returns {string} The path or URL to the correct weather icon
+   */
   function getIconPath(iconCode) {
     // If it's a night icon (ends with 'n'), or we want perfect accuracy, 
     // we use OpenWeatherMap's official icons so you get moons at night!
