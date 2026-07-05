@@ -34,6 +34,7 @@
 | Responsive (mobile/tablet/desktop) | ✅ |
 | Keyboard navigation | ✅ |
 | Accessibility (ARIA) | ✅ |
+| Detailed JSDoc code comments | ✅ |
 
 ---
 
@@ -193,6 +194,7 @@ app.js (Controller)
 - [x] Favorite cities functionality
 - [x] Location detection (geolocation API)
 - [x] Share functionality
+- [x] Comprehensive code comments (JSDoc) for readability
 
 ---
 
