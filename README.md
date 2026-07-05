@@ -69,7 +69,7 @@ week4-weather-app/
 │       ├── bg_rain.png
 │       ├── bg_snow.png
 │       └── bg_thunderstorm.png
-├── .env.example               # API key configuration template
+├── .env               # API key configuration template
 ├── .gitignore
 └── README.md
 ```
